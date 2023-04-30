@@ -1,0 +1,13 @@
+.sidebar .router-link-active.router-link-exact-active.nav-link{
+    font-weight: 700;
+    color: #ffffff;
+}
+.sidebar .router-link-active.router-link-exact-active.nav-link i{
+    font-weight: 700;
+    color: #ffffff;
+}
+
+a.router-link-active.router-link-exact-active.collapse-item{
+    color: #4e73df!important;
+    font-weight: 700;
+}
