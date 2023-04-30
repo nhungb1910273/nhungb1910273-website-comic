@@ -6,7 +6,9 @@ class ComicService {
     async getAll() {
         return (await this.api.get("/getAll")).data;
     }
-    
+    async getTrending() {
+        return (await this.api.get("/getTrending")).data;
+    }
     async get(id) {
         return (await this.api.get(`get/${id}`)).data;
     }

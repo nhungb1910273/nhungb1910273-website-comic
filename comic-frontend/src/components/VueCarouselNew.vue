@@ -1,7 +1,13 @@
 <template>
-    <Carousel :itemsToShow="3.95" :wrapAround="true" :transition="500" :autoplay="2000">
-      <Slide v-for="slide in 10" :key="slide">
-        <div class="carousel__item">{{ slide }}</div>
+    <Carousel :itemsToShow="5" :wrapAround="true" :transition="500" :autoplay="2000">
+      <Slide v-for="slide in comics" :key="slide._id">
+          <router-link :to="{
+                name: 'comic.detail',
+                params: { id: slide._id },
+            }"  class="carousel__item">
+                <img :src="'http://localhost:3000/assets/pdf/'+slide.photo" />
+                <figcaption>{{ slide.name }}</figcaption>
+            </router-link>
       </Slide>
     </Carousel>
   </template>
@@ -9,8 +15,8 @@
   <script>
   import { defineComponent } from 'vue'
   import { Carousel, Pagination, Slide } from 'vue3-carousel'
-  
-  import 'vue3-carousel/dist/carousel.css'
+  import 'vue3-carousel/dist/carousel.css';
+  import comicService from '@/services/comic.service';
   
   export default defineComponent({
     name: 'Autoplay',
@@ -19,6 +25,27 @@
       Slide,
       Pagination,
     },
+    data(){
+      return{
+        comics:[]
+      }
+
+    },
+    methods:{
+      async getComicTrending (){
+        try {
+          var trending = await comicService.getTrending();
+          if(trending && trending.errCode==0){
+            this.comics = trending.comics;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    mounted(){
+      this.getComicTrending()
+    }
   })
   </script>
   
