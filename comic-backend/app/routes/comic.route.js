@@ -22,7 +22,11 @@ router.route('/createContent').post(upload.array('content',10),comic.createConte
 
 router.route('/getAll').get(comic.findAll);
 
+router.route('/getTrending').get(comic.findTrending);
+
 router.route("/delete/:id").delete(comic.delete);
+
+router.route("/deleteContent/:id").delete(comic.deleteContent);
 
 router.route("/get/:id").get(comic.findOne);
 
@@ -32,7 +36,9 @@ router.route("/getContent/:id").get(comic.findContents);
 
 router.route("/getContentById/:id").get(comic.findOneContentById);
 
+router.route("/update/:id").put(upload.single('photo'),comic.update);
 
+router.route("/updateContent/:id").put(upload.array('content',10),comic.updateContent);
 
 
 

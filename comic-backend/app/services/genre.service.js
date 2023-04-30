@@ -78,7 +78,6 @@ class GenreService {
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        console.log(filter);
         const update = this.extractGenreData(payload);
         const result = await this.Genre.findOneAndUpdate(
             filter,

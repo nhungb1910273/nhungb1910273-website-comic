@@ -9,15 +9,22 @@ class ComicService {
     }
     
     extractComicData(payload,file) {
+        if(file === undefined){
+            var photo = payload.photo;
+        }else{
+            var photo = file.filename;
+        }
         const comic = {
             name: payload.name,
-            photo: file.filename,
+            photo: photo,
             actor: payload.actor,
-            _idGenre: payload.idGenre,
+            _idGenre: payload._idGenre,
             description: payload.description,
             schedule: payload.schedule,
-            trending: payload.trending === 'undefined' ? false : true,
+            trending: payload.trending,
+            
         };
+        console.log(comic);
         
         // Remove undefined fields
         Object.keys(comic).forEach(
@@ -38,7 +45,6 @@ class ComicService {
                 { $set: { createAt: new Date()} },
                 { returnDocument: "after", upsert: true }
             )
-            console.log(result.value);
             if(result.value){
                 return{
                     errCode:0,
@@ -140,7 +146,6 @@ class ComicService {
     }
 
     async findComicByGenre(id) {
-        console.log(id);
         const comic = await this.Comic.find({
             _idGenre: id,
         });
@@ -165,21 +170,20 @@ class ComicService {
 
     
 
-    async update(id, payload) {
+    async update(id, payload,file) {
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        console.log(filter);
-        const update = this.extractComicData(payload);
+        const update = this.extractComicData(payload,file)
         const result = await this.Comic.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
         );
-        if(result){
+        
+        if(result.value){
             return {
                 errCode: 0,
-                message: 'Comic was updated successfully'
             }
         }else{
             return {
@@ -189,28 +193,99 @@ class ComicService {
         }
     }
 
+    async updateContent(id, payload,file) {
+        const filter = {
+            _idComic: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        };  
+        if(Array.isArray(file) && file.length){
+            console.log('FILE');
+            for(var i=0;i<file.length;i++){ 
+                console.log(payload.nameContent.length-file.length);
+                if(file.length > 1){
+                    var content = {
+                        nameContent: payload.nameContent[i],
+                        content: file[i].filename,
+                        _idComic:findComic._id
+                    }
+                }else{
+                    var content = {
+                        nameContent: payload.nameContent,
+                        content: file[i].filename,
+                        _idComic:findComic._id
+                    }                    
+                }
+                var result = await this.Content.findOneAndUpdate(
+                    filter,
+                    { $set: content },
+                    { returnDocument: "after", upsert: true }
+                )
+                if(result.value){
+                    return {
+                        errCode: 0,
+                        message:'Comic was updated successfully'
+                    }
+                }else{
+                    return {
+                        errCode: 1,
+                        message: 'Comic not found!'
+                    }
+                }
+            }
+        }else{
+            console.log('UNDEFINE');
+            var content = {
+                nameContent: payload.nameContent,
+                content: payload.content,
+            }
+            var result = await this.Content.findOneAndUpdate(
+                filter,
+                { $set: content },
+                { returnDocument: "after", upsert: true }
+            )
+            
+            if(result.value){
+                return {
+                    errCode: 0,
+                    message:'Comic was updated successfully'
+                }
+            }else{
+                return {
+                    errCode: 1,
+                    message: 'Comic not found!'
+                }
+            }
+            
+        }
+        // const result = await this.Content.findOneAndUpdate(
+        //     filter,
+        //     { $set: update },
+        //     { returnDocument: "after" }
+        // );
+        
+        // if(result.value){
+        //     return {
+        //         errCode: 0,
+        //     }
+        // }else{
+        //     return {
+        //         errCode: 1,
+        //         message: 'Comic not found!'
+        //     }
+        // }
+    }
+
     async delete(id) {
         const result = await this.Comic.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
-
-        if(result.value){
-            // if(findContent){
-            //     const resultContent = await this.Content.findOneAndDelete({
-            //         _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
-            //     });
-            //     if(resultContent){
-                    return{
-                        errCode:0,
-                        message:"Comic was deleted successfully"
-                    }
-            //     }
-            // }else{
-            //     return{
-            //         errCode:2,
-            //         message:"Content not found"
-            //     }
-            // }
+        const resultContent = await this.Content.deleteMany({
+            _idComic: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
+        if(result.value && resultContent.deletedCount){
+            return{
+                errCode:0,
+                message:"Comic was deleted successfully"
+            }
         }else{
             return {
                 errCode:1,
@@ -218,9 +293,26 @@ class ComicService {
             }
         }
     }
+    async deleteContent(id) {
+        const result = await this.Content.findOneAndDelete({
+            _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
+        
+        if(result.value){
+            return{
+                errCode:0,
+                message:"Chapter was deleted successfully"
+            }
+        }else{
+            return {
+                errCode:1,
+                message:"Chapter not found"
+            }
+        }
+    }
 
-    async findFavorite() {
-        return await this.find({ favorite: true });
+    async findTrending() {
+        return await this.find({ trending: true });
     }
     async deleteAll() {
         const result = await this.Comic.deleteMany({});

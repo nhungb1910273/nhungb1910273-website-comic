@@ -5,7 +5,6 @@ const ApiError = require("../api-error");
 
 
 exports.create = async (req, res, next) => {
-
     if (!req.body?.name) {
         return next(new ApiError(400, "Name can not be empty"));
     }
@@ -15,7 +14,7 @@ exports.create = async (req, res, next) => {
         return res.send(document);
     }catch (error){
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the comics")
         );
     }
 };
@@ -29,7 +28,7 @@ exports.createContent = async (req, res, next) => {
         return res.send(document);
     }catch (error){
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the comics")
         );
     }
 };
@@ -47,7 +46,7 @@ exports.findAll = async (req,res,next) => {
         
     } catch (error) {
         return next(
-            new ApiError(500, "An error occurred while retrieving contacts")
+            new ApiError(500, "An error occurred while retrieving comics")
         );
     }
     return res.send(documents);
@@ -132,19 +131,35 @@ exports.findOneComicByGenre = async (req,res,next)=>{
     }
 }
 exports.update=async(req,res,next)=>{
+    
     if(Object.keys(req.body).length === 0){
         return next(new ApiError(400, "Data to update can not be empty"));
     }
     try {
         const comicService = new ComicService(MongoDB.client);
-        const document = await comicService.update(req.params.id, req.body);
+        const document = await comicService.update(req.params.id, req.body,req.file);
         return res.send(document);
     } catch (error) {
         return next(
-            new ApiError(500, `Error updating genre with id=${req.params.id}`)
+            new ApiError(500, `Error updating comic with id=${req.params.id}`)
         );
     }
 };
+exports.updateContent=async(req,res,next)=>{
+    if(Object.keys(req.body).length === 0){
+        return next(new ApiError(400, "Data to update can not be empty"));
+    }
+    try {
+        const comicService = new ComicService(MongoDB.client);
+        const document = await comicService.updateContent(req.params.id, req.body,req.files);
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(500, `Error updating comic with id=${req.params.id}`)
+        );
+    }
+};
+
 
 exports.delete = async(req,res,next)=>{
     try {
@@ -162,17 +177,45 @@ exports.delete = async(req,res,next)=>{
     }
 };
 
+exports.deleteContent = async(req,res,next)=>{
+    try {
+        const comicService = new ComicService(MongoDB.client);
+        console.log(req.params.id);
+        const document= await comicService.deleteContent(req.params.id);
+        
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(
+                500,
+                `Could not delete contact with id=${req.params.id}`
+            )
+        );
+    }
+};
+
 exports.deleteAll = async(_req,res,next)=>{
     try {
         const comicService = new ComicService(MongoDB.client);
         const deletedCount = await comicService.deleteAll;
         return res.send({
-            message: `${deletedCount} contacts were deleted successfully` 
+            message: `${deletedCount} comics were deleted successfully` 
         });
     } catch (error) {
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the comics")
         );
     }
 };
 
+exports.findTrending = async(_req,res,next)=>{
+    try{
+        const comicService = new ComicService(MongoDB.client);
+        const documents = await comicService.findTrending();
+        return res.send(documents);
+    }catch (error){
+        return next(
+            new ApiError(500, "An error occurred while creating the comics")
+        );
+    }
+};
