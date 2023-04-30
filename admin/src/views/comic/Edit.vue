@@ -93,7 +93,7 @@ export default {
             try {
                 var content = await comicService.getContent(id);
                 this.content = content.contents;
-                console.log(content);
+                console.log(this.content);
             } catch (error) {
                 toast.error(error);
                 // Chuyển sang trang NotFound đồng thời giữ cho URL không đổi
@@ -108,16 +108,38 @@ export default {
                 // });
             }
         },
-        async updateComic(data) {
-            console.log(data);
+        async updateComic(data,input) {
             try {
-                var update = await comicService.update(this.comic._id, data);
-                if(update && update.errCode==0){
-                    toast.success(update.message);
-                    this.$router.push({ name: "comic.list" });
+                var formDataComic = new FormData();
+                formDataComic.append('name',data.name);
+                formDataComic.append('actor',data.actor);
+                formDataComic.append('photo',data.photo);
+                formDataComic.append('description',data.description);
+                formDataComic.append('trending',data.trending);
+                formDataComic.append('schedule',data.schedule);
+                formDataComic.append('_idGenre',data._idGenre);
+                var update = await comicService.update(this.comic._id, formDataComic);
+                console.log(update);
+                if(update && update.errCode == 0){
+                    var formData = new FormData();
+                    formData.append('name',data.name);
+                    for(var i=0;i<input.length;i++){
+                        formData.append('nameContent',input[i].nameContent);
+                        formData.append('content',input[i].content);
+                    }
+                    var contentUpdate = await comicService.updateContent(this.comic._id,formData);
+                    if(contentUpdate && contentUpdate.errCode == 0){
+                        toast.success(contentUpdate.message);
+                        // this.comic = {};
+                        // this.$router.push({ name: "comic.list" });
+                    }else{
+                        toast.error(contentUpdate.message);
+                    }
+                    
                 }else{
                     toast.error(update.message);
                 }
+                
             } catch (error) {
                 toast.error(error);
             }

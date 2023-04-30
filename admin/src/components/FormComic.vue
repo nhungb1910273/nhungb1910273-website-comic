@@ -17,13 +17,25 @@
         </div>
         <div class="mb-3 col-12">
             <label class="form-label" for="photo">Photo:</label>
-            <Field
+            <input type="file" accept="image/*" @change="previewImage" class="form-control-file" id="photo">
+            <div class="border p-2 mt-3">
+                <p>Preview Here:</p>
+                <div v-if="preview">
+                    <p class="mb-0">file name: {{ comicLocal.photo.name }}</p>
+                    <img :src="preview" class="img-fluid"/>
+                </div>
+                <div v-else-if="comicLocal.photo">
+                    <p class="mb-0">File name: {{ comicLocal.photo }}</p>
+                    <img :src="'http://localhost:3000/assets/pdf/'+comicLocal.photo" class="img-fluid"/>
+                </div>
+            </div>
+            <!-- <input
                 name="photo"
                 type="file"
                 class="form-control-file"
-                v-model="comicLocal.photo"
+                @change="onFileChangePhoto($event,input)"
                 accept="jpg/png/jpeg*"
-            />
+            /> -->
             <ErrorMessage name="photo" class="text-danger" />
         </div>
         <div class="mb-3 col-md-6">
@@ -103,10 +115,35 @@
                         accept="pdf/*"
                         @change="onFileChange($event,input)"
                     />
+                    <!-- <p v-if=""></p> -->
+                    
+                    <div class="border p-2 mt-3">
+                        <p>Preview Here:</p>
+                        
+                        <div v-if="input.embedSrc">
+                            <p >{{ input.content.name }}</p>
+                            <embed
+                                type="video/webm"
+                                :src="input.embedSrc"
+                                width="100%"
+                                style="max-height: 50rem; min-height: 20rem"
+                            />
+                        </div>
+                        <div v-else>
+                            <p>File name: {{ input.content }}</p>
+                            <embed
+                                v-if="input.content"
+                                type="video/webm"
+                                :src="'http://localhost:3000/assets/pdf/'+input.content"
+                                width="100%"
+                                style="max-height: 70rem; min-height: 20rem"
+                            />
+                        </div>
+                    </div>
                 </div>
                 <span>
-                    <i class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && inputs.length > 1)" style="font-size: 20px;cursor: pointer;padding-right: 5px;"></i>
-                    <i class="fas fa-plus-circle" @click="add(k)" v-show="k == inputs.length-1" style="font-size: 20px;cursor: pointer;"></i>
+                    <i class="fas fa-minus-circle" @click="remove(k,input._id)" v-show="k || ( !k && inputs.length > 1)" style="font-size: 20px;cursor: pointer;padding-right: 5px;"></i>
+                    <i class="fas fa-plus-circle" @click="add(k)" v-show="k == inputs.length-1" style="font-size: 20px;cursor: pointer;padding-right: 5px;"></i>
                 </span>
                 
             </div>
@@ -120,8 +157,10 @@
 <script>
     import * as yup from "yup";
     import { Form, Field, ErrorMessage } from "vee-validate";
-        import genreService from "@/services/genre.service";
-
+    import genreService from "@/services/genre.service";
+    import comicService from "@/services/comic.service";
+    import { toast } from 'vue3-toastify';
+    import 'vue3-toastify/dist/index.css';
 
     export default {
         components: {
@@ -133,7 +172,10 @@
         emits: ["submit:comic"],
         props: {
             comic: { type: Object, required: true },
-            content: { type: Array, required: true },
+            content: { type: Array,required:true, default:[{
+                nameContent:'',
+                content:''
+            }] },
         },
         data() {
             const comicFormSchema = yup.object().shape({
@@ -142,13 +184,11 @@
                     .required("Name must be valid"),
                 actor: yup
                     .string()
-                    .required("Name must be valid"),
-                photo: yup
-                    .string()
-                    .required("Content must be valid"),
+                    .required("Actor must be valid"),
                 description: yup
                     .string()
                     .required("Description must be valid"),
+                
                
                 
             });
@@ -158,31 +198,35 @@
                     genres:[],
                     // selected: this.genreSelected ? this.genreSelected : '',
                     comicLocal: this.comic,
-                    inputs: this.content,
-                    comicFormSchema
+                    inputs: [...this.content],
+                    comicFormSchema,
+                    preview: null,
+                                        
             };
         },
+       
         methods: {
             onFileChange($event,input) {
-                const file = $event.target.files[0];                
-                // this.inputs={
-                //     content:file
-                // }
-                // const reader = new FileReader()
-                if (file) {
+                const file = $event.target.files[0];    
+                if(file){
                     input.content = file;
-                    // reader.readAsDataURL(file)
-                    // reader.onload = () => {
-                    // // Set a new property on the captured `file` and set it to the converted base64 image
-                    // file.previewBase64 = reader.result
-                    // // Emit the file with the new previewBase64 property on it
-                    // this.$emit('file-updated', file)
-                    // }
-                    // reader.onerror = (error) => {
-                    //     console.log('Error ', error)
-                    // }
+                    input.embedSrc = URL.createObjectURL($event.target.files[0]);
                 }
-                },
+            },
+            previewImage($event) {
+                var input = $event.target;
+                if (input.files) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.preview = e.target.result;
+                    }
+                    
+                    this.comicLocal={
+                        photo:input.files[0]
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
             submitComic() {
                 console.log(this.inputs);
                 this.$emit("submit:comic", this.comicLocal,this.inputs);
@@ -193,7 +237,6 @@
                     if(genres && genres.errCode == 0){
                         this.genres = genres.genres;
                     } 
-                    
                 } catch (error) {
                     console.log(error);
                 }
@@ -201,15 +244,35 @@
             add(index) {
                 this.inputs.push({
                             nameContent:'',
-                            content: ''
+                            content: '',
+                            embedSrc:''
                         });
+                
             },
-            remove(index) {
-                this.inputs.splice(index, 1);
+            async remove(index,id) {
+                if(id){
+                    if (confirm("Are you sure remove chapter ?")) {
+                        try {
+                            // console.log(id)
+                            var remove = await comicService.deleteContent(id);
+                            console.log(remove);
+                            if(remove && remove.errCode==0){
+                                toast.success(remove.message);
+                                // this.refreshList();
+                            }else{
+                                toast.error(remove.message);
+                            }
+                        } catch (error) {
+                            toast.error(error);
+                        }
+                    }
+                    this.inputs.splice(index, 1);
+                }else{
+                    this.inputs.splice(index, 1);
+                }
             }
         },
          mounted(){
-            console.log(this.comic);
             this.retrieveGenres();
         }
     };

@@ -66,8 +66,20 @@ import 'vue3-toastify/dist/index.css';
         methods: {
             async addComic(data,input) {
                 try {
-                    
-                    var comic = await comicService.create(data);
+                    if(data.trending = 'undefine'){
+                        var trending = 'false';
+                    }else{
+                        var trending = 'true';
+                    }
+                    var formDataComic = new FormData();
+                    formDataComic.append('name',data.name);
+                    formDataComic.append('actor',data.actor);
+                    formDataComic.append('photo',data.photo);
+                    formDataComic.append('description',data.description);
+                    formDataComic.append('trending',trending);
+                    formDataComic.append('schedule',data.schedule);
+                    formDataComic.append('_idGenre',data._idGenre);
+                    var comic = await comicService.create(formDataComic);
                     if(comic && comic.errCode ==0){
                        var formData = new FormData();
                        formData.append('name',data.name);

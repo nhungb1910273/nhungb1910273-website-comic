@@ -1,5 +1,4 @@
 <script>
-import { IMG_URL } from '../config/img-url';
 export default {
     props: {
         comics: { type: Array, default: [] },
