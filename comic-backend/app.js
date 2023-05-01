@@ -4,6 +4,7 @@ const usersRouter = require("./app/routes/user.route");
 const contactsRouter = require("./app/routes/contact.route");
 const genresRouter = require("./app/routes/genre.route");
 const comicsRouter = require("./app/routes/comic.route");
+const commentsRouter = require("./app/routes/comment.route");
 
 const ApiError = require("./app/api-error");
 
@@ -17,6 +18,8 @@ app.use("/api/users",usersRouter);
 app.use("/api/contacts",contactsRouter);
 app.use("/api/comics",comicsRouter)
 app.use("/api/genres",genresRouter);
+app.use("/api/comments",commentsRouter)
+
 
 app.use('/assets/pdf/',express.static(PDF_PATH));
 
