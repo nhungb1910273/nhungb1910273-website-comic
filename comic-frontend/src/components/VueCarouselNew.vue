@@ -1,13 +1,17 @@
 <template>
-    <Carousel :itemsToShow="5" :wrapAround="true" :transition="500" :autoplay="2000">
+    <Carousel :itemsToShow="4.95" :wrapAround="true" :transition="500" :autoplay="2000">
       <Slide v-for="slide in comics" :key="slide._id">
-          <router-link :to="{
+          <div class="item">
+            <router-link :to="{
                 name: 'comic.detail',
                 params: { id: slide._id },
-            }"  class="carousel__item">
+            }"  class="item_info">
                 <img :src="'http://localhost:3000/assets/pdf/'+slide.photo" />
-                <figcaption>{{ slide.name }}</figcaption>
+                
             </router-link>
+            <p class="name_item">{{ slide.name }}</p>
+                <GenreName :id="slide._idGenre" />
+          </div>
       </Slide>
     </Carousel>
   </template>
@@ -17,14 +21,16 @@
   import { Carousel, Pagination, Slide } from 'vue3-carousel'
   import 'vue3-carousel/dist/carousel.css';
   import comicService from '@/services/comic.service';
+import GenreName from './GenreName.vue';
   
   export default defineComponent({
     name: 'Autoplay',
     components: {
-      Carousel,
-      Slide,
-      Pagination,
-    },
+    Carousel,
+    Slide,
+    Pagination,
+    GenreName
+},
     data(){
       return{
         comics:[]

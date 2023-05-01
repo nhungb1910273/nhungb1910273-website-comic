@@ -14,12 +14,12 @@
           </div>
           <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 link_web ">
               <ul>
-                  <h5>Trang</h5>
-                  <li>Trang Chủ</li>
-                  <li>Lịch ra truyện</li>
-                  <li>Thể loại</li>
-                  <li>New Tredding</li>
-                  <h5>Đánh Giá</h5>
+                  <h5>Page</h5>
+                  <li>Home</li>
+                  <li>Schedule</li>
+                  <li>Genre</li>
+                  <li>New & Tredding</li>
+                  <h5>Widget Start</h5>
                   <li class="widget">
                       <!-- Đánh giá -->
                       <div class="rating">
@@ -36,26 +36,7 @@
                       </div>
                   </li>
               </ul>
-          </div>
-          <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-              <div>
-                  <h5>Thông tin liên lạc</h5>
-                  <form class="py-1">
-                      <div class="mb-3">
-                          <label style="color: #fff;" for="exampleFormControlInput1" class="form-label">Họ Tên:</label>
-                          <input type="text" class="form-control" style="width: fit-content;" id="exampleFormControlInput1">
-                      </div>
-                      <div class="mb-3">
-                          <label style="color: #fff;" for="exampleFormControlInput2" class="form-label">Email:</label>
-                          <input type="email" class="form-control" style="width: fit-content;" id="exampleFormControlInput2" placeholder="name@example.com">
-                      </div>
-                      <div class="mb-3">
-                          <label style="color: #fff;" for="exampleFormControlTextarea1" class="form-label">Nhận xét:</label>
-                          <textarea class="form-control" style="width: fit-content;" id="exampleFormControlTextarea1" rows="3"></textarea>
-                      </div>
-                      <button type="submit" class="btn" style="background-color: #e74c3c; width: fit-content;">Gửi</button>
-                  </form>
-                  <h5>Liên kết mạng xã hội</h5>
+              <h5>Social Media</h5>
                   <ul class="row p-0">
                       <li class="col-3"><a href="#">
                           <i class="fa-brands fa-facebook-f" style="font-size: 25px; color: #fff;"></i>
@@ -67,6 +48,26 @@
                           <i class="fa-brands fa-twitter" style="font-size: 25px; color: #fff;"></i>
                       </a></li>
                   </ul>
+          </div>
+          <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+              <div>
+                  <h5>Message</h5>
+                  <form class="py-1">
+                      <div class="mb-3">
+                          <label style="color: #fff;" for="exampleFormControlInput1" class="form-label">Name:</label>
+                          <input type="text" class="form-control" style="width: fit-content;" id="exampleFormControlInput1">
+                      </div>
+                      <div class="mb-3">
+                          <label style="color: #fff;" for="exampleFormControlInput2" class="form-label">Email:</label>
+                          <input type="email" class="form-control" style="width: fit-content;" id="exampleFormControlInput2" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                          <label style="color: #fff;" for="exampleFormControlTextarea1" class="form-label">Message:</label>
+                          <textarea class="form-control" style="width: fit-content;" id="exampleFormControlTextarea1" rows="3"></textarea>
+                      </div>
+                      <button type="submit" class="btn" style="background-color: #e74c3c; width: fit-content;">Gửi</button>
+                  </form>
+                  
               </div>
           </div>
       </div>

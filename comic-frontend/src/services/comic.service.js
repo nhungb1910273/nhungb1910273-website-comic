@@ -22,5 +22,12 @@ class ComicService {
     async getComicByGenre(id) {
         return (await this.api.get(`getComicByGenre/${id}`)).data;
     }
+    async getComicBySchedule(id) {
+        return (await this.api.get(`getComicBySchedule/${id}`)).data;
+    }
+
+    async findComicByName(search) {
+        return (await this.api.get(`findComicByName/${search}`)).data;
+    }
 }
 export default new ComicService();

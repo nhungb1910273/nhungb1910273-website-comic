@@ -65,7 +65,7 @@ body{
     opacity: 1;
 }
 .nav_menu_list{
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .nav_menu_list li{
     padding-left: 20px;
@@ -76,6 +76,9 @@ body{
 .nav_menu_list li a{
     display: block;
     padding: 8px 4px;
+}
+a.router-link-active.router-link-exact-active.nav_menu_item{
+    color: #e74c3c!important;
 }
 .nav_menu_close{
     font-size: 28px;
@@ -415,6 +418,7 @@ ul{
   footer{
       background-color: #1f1f1f;
       height: auto;
+      color: #ffffff;
   }
   footer h5{
       color: #e74c3c;
@@ -439,10 +443,17 @@ ul{
     padding: 5px 30px;
     margin: 5px;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.section ul li:hover{
+    margin-bottom: 8px;
+    margin-top: 0px;
 }
 .section ul li.active_topic,.active_topic{
     background: #e74c3c;
     color: #ffffff;
+    margin-bottom: 8px;
+    margin-top: 0px;
 }
 /* btn-group: responsive */
 .btn-group{
@@ -462,8 +473,10 @@ ul{
     flex-wrap: wrap;
 }
 .item{
-    margin: 2px;
-    width: 230px;
+    margin: 0px 8px;
+    width: 200px;
+    height: 370px;
+    
 }
 .item_info{
     position: relative;
@@ -688,5 +701,13 @@ input#rate-5:checked ~ label{
     transform: rotate(25deg);
     top: -40%;
     opacity: 0.15;
+}
+
+/* detail comic */
+.detail .title-detail{
+    color: #e74c3c;
+}
+.detail .chapter:hover{
+    color: #e74c3c!important;
 }
 

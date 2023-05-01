@@ -5,11 +5,7 @@ const routes = [
         name: "home",
         component: () => import("@/views/home/Home.vue"),
     },
-    {
-        path: "/schedule",
-        name: "schedule",
-        component: () => import("@/views/schedule/Schedule.vue"),
-    },
+   
     {
         path: "/:pathMatch(.*)*",
         name: "notfound",
@@ -33,10 +29,10 @@ const routes = [
         props: true
     },
     {
-        path: "/comic/search",
+        path: "/search",
         name: "comic.search",
         component: () => import("@/views/search/Search.vue"),
-        props: true
+        // props: true
     },
     // {
     //     path: "/comic/:id",

@@ -3,17 +3,17 @@
       <!-- responsive -->
       <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          Thể loại
+          Genre
         </button>
         <ul class="dropdown-menu">
-          <li class="list dropdown-item" :class=" {'active_topic': (activeId === 'all')}" @click="filterArray('all')">All comic</li>
+          <li class="list dropdown-item" :class=" {'active_topic': (activeId === 'all')}" @click="filterArray('all')">All</li>
           <li class="list dropdown-item" :class=" {'active_topic': (activeId === genre._id)}" @click="filterArray(genre._id)" v-for="(genre,index) in genres" :key="genre._id">{{ genre.name}}</li>
           
         </ul>
       </div>
       <section class="section">
         <ul class="nav">
-          <li :class=" {'active_topic': (activeId === 'all')}" class="nav-item list" @click="filterArray('all')">All comic</li>
+          <li :class=" {'active_topic': (activeId === 'all')}" class="nav-item list" @click="filterArray('all')">All</li>
           <li :class=" {'active_topic': (activeId === genre._id)}" class="nav-item list" @click="filterArray(genre._id)" v-for="(genre,index) in genres" :key="genre._id">{{ genre.name}}</li>
         </ul>
       </section>
@@ -24,7 +24,7 @@
               <img :src="'http://localhost:3000/assets/pdf/'+comic.photo" />
             </a>
             <p class="name_item">{{ comic.name }}</p>
-            <!-- <p class="name_topic">{{ genre.name }}</p> -->
+            <GenreNameVue :id="comic._idGenre" />
           </div>
         
       </div>
@@ -35,8 +35,11 @@
 
 import comicService from "@/services/comic.service";
 import genreService from "@/services/genre.service";
+import GenreNameVue from "../../components/GenreName.vue";
     export default{
-       
+       components:{
+        GenreNameVue
+       },
         data(){
             return{
                 genres:[],

@@ -10,14 +10,12 @@
                         <li>
                             <router-link to="/" class="items_menu">Home</router-link>
                         </li>
+                        
                         <li>
-                            <router-link to="schedule" class="items_menu">Schedule</router-link>
+                            <router-link to="/genre" class="items_menu">Genre</router-link>
                         </li>
                         <li>
-                            <router-link to="genre" class="items_menu">Genre</router-link>
-                        </li>
-                        <li>
-                            <router-link to="trending" class="items_menu">Trending</router-link>
+                            <router-link to="/trending" class="items_menu">New & Trending</router-link>
                         </li>
                     </ul>
                 </nav>
@@ -25,21 +23,32 @@
             <div class="right_header">
                 <!-- search -->
                 <div>
-                    <form @submit.prevent="search" method="post" class="search_box me-3">
-                        <input type="search" name="search" class="search_text" placeholder="Search" required>
-                        <button class="search_btn" type="submit" name="ok">
+                    <form class="search_box me-3" action="/search">
+                        <input type="search" :value="this.$route.query.search" name="search" class="search_text" placeholder="Search" required>
+                        <button class="search_btn" type="submit" >
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </form>
                     
                 </div>
                 <div class="taotk">
-                    <button class="account me-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <div v-if="username == ''">
+                        <button class="account me-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Register
-                    </button>
-                    <button class="account" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                            Login
-                    </button>
+                        </button>
+                        <button class="account" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                Login
+                        </button>
+                    </div>
+                    <div v-else>
+                        <button class="account me-2" type="button">
+                            {{ username }}
+                        </button>
+                        <button class="account" type="button" @click="logout">
+                            Logout
+                        </button>
+                        
+                    </div>
                 </div>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -102,28 +111,31 @@
                         </label>
                     </div>
                   
-                    <div class="taotk">
-                        <button class="dropdown-toggle text-light account" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Account
+                    <div class="m-2 text-end">
+                        <button class="account me-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Register
                         </button>
-                        <ul class="dropdown-menu account_ul" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Login</a></li>
-                            <li><a class="dropdown-item" href="#">Register</a></li>
-                        </ul>
+                        <button class="account" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                Login
+                        </button>
                     </div>
                     <ul class="nav_menu_list border border-1">
-                        <li><a class="nav_menu_item border-bottom" href="trangchu.php">
-                            Trang Chủ
-                        </a></li>
-                        <li><a class="nav_menu_item border-bottom" href="lichtruyen.php">
-                            Lịch Ra Truyện
-                        </a></li>
-                        <li><a class="nav_menu_item border-bottom" href="theloai.php">
-                            Thể Loại
-                        </a></li>
-                        <li><a class="nav_menu_item" href="truyenmoi.php">
-                        New Tredding
-                        </a></li>
+                        <li>
+                            <router-link class="nav_menu_item border-bottom" to="/">
+                            Home
+                            </router-link>
+                        </li>
+                       
+                        <li>
+                            <router-link class="nav_menu_item border-bottom" to="/genre">
+                                Genre
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link class="nav_menu_item" to="/trending">
+                                New & Trendding
+                            </router-link>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -149,19 +161,21 @@ export default {
     data() {
         return {
             user: {},
+            username:'',
+            route: this.$route.query.page
         };
     },
     methods: {
         async Register(data) {
             try {
                 var register = await UserService.register(data);
-                console.log(register);
+                
                 if(register && register.errCode == 0){
-                    toast.success(register.errMessage);
+                    toast.success(register.message);
                     this.user = {};
-                    router.push({ path: '/' })
+                    this.$router.go(0);
                 }else{
-                    toast.error(register.errMessage);
+                    toast.error(register.message);
                 }
             } catch (error) {
                 toast.error(error);
@@ -169,20 +183,38 @@ export default {
         },
         async Login(data) {
             try {
-                console.log(data);
                 var login = await UserService.login(data);
-                if(login && login.errCode == 0){
-                    toast.success(login.errMessage);
+                console.log(login);
+                if(login.errCode == 0){
+                    localStorage.setItem('user', JSON.stringify(login.user));
+                    toast.success(login.message);
                     this.user = {};
-                    router.push({ path: '/' })
+                    this.$router.go(0);
                 }else{
-                    toast.error(login.errMessage);
+                    toast.error(login.message);
                 }
             } catch (error) {
-                toast.error(error);
+                console.log("ERROR",error)
             }
         },
+        getUserName (){
+            
+            const user= JSON.parse(localStorage.getItem('user'));
+            if(user){
+                this.username = user.name;
+            }
+            console.log(this.username);
+
+        },
+        logout(){
+            localStorage.removeItem('user');
+            this.$router.go(0);
+        }
     },
-    
+    mounted(){
+        this.getUserName();
+    }
+   
+
 }
 </script>

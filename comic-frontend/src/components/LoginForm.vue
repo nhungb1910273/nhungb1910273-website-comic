@@ -12,7 +12,7 @@
             <div class="form-text">We'll never share your email with anyone else.</div>
             <ErrorMessage name="password" class="text-danger" />
         </div>
-        <button type="submit" class="btn text-light col-12" style="background-color: #e74c3c;">Register</button>
+        <button type="submit" class="btn text-light col-12" style="background-color: #e74c3c;">Login</button>
     </Form>
 </template>
 
