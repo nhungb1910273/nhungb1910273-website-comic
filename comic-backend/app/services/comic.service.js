@@ -161,6 +161,22 @@ class ComicService {
             }
         }
     }
+    async findComicBySchedule(id) {
+        const comic = await this.Comic.find({
+            schedule: id,
+        });
+        if(comic){
+            return{
+                errCode:0,
+                comics: await comic.toArray()
+            }
+        }else{
+            return{
+                errCode:1,
+                comics: '',
+            }
+        }
+    }
 
     async findContentById(id) {
         return await this.Content.findOne({
@@ -312,7 +328,7 @@ class ComicService {
     }
 
     async findTrending() {
-        return await this.find({ trending: true });
+        return await this.find({ trending: 'true' });
     }
     async deleteAll() {
         const result = await this.Comic.deleteMany({});

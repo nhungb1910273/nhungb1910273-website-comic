@@ -32,9 +32,13 @@ router.route("/get/:id").get(comic.findOne);
 
 router.route("/getComicByGenre/:id").get(comic.findOneComicByGenre);
 
+router.route("/getComicBySchedule/:id").get(comic.findComicBySchedule);
+
 router.route("/getContent/:id").get(comic.findContents);
 
 router.route("/getContentById/:id").get(comic.findOneContentById);
+
+router.route("/findComicByName/:search").get(comic.findComicByName);
 
 router.route("/update/:id").put(upload.single('photo'),comic.update);
 

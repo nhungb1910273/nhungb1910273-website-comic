@@ -35,7 +35,7 @@ class UserService {
             }else{
                 await this.User.findOneAndUpdate(
                     user,
-                    { $set: { user: user } },
+                    { $set: { createAt:new Date() } },
                     { returnDocument: "after", upsert: true }
                 );
                 return {
@@ -56,12 +56,14 @@ class UserService {
         var findUser =  await this.User.findOne({
             email: payload.email,
         });
+        console.log(findUser);
         if(findUser){
             let check = bcrypt.compareSync(payload.password, findUser.password);
             if(check){
                 return {
                     errCode: 0,
-                    message:"User login successfully!"
+                    message:"User login successfully!",
+                    user:findUser
                 };
             }else{
                 return {

@@ -92,6 +92,27 @@ exports.findContents = async (req,res,next)=>{
         
     }
 }
+
+exports.findComicByName = async (req,res,next)=>{
+    try {
+        const comicService = new ComicService(MongoDB.client);
+        const document = await comicService.findByName(req.params.search);
+        if(!document){
+            return next(new ApiError(404, "Comic not found"));
+        }
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(
+                500,
+                `Error retrieving comic with id=${req.params.id}`
+            )
+        );
+        
+    }
+}
+
+
 exports.findOneContentById = async (req,res,next)=>{
     try {
         const comicService = new ComicService(MongoDB.client);
@@ -115,6 +136,25 @@ exports.findOneComicByGenre = async (req,res,next)=>{
     try {
         const comicService = new ComicService(MongoDB.client);
         const document = await comicService.findComicByGenre(req.params.id);
+        if(!document){
+            return next(new ApiError(404, "Comic not found"));
+        }
+        console.log(document);
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(
+                500,
+                `Error retrieving comic with id=${req.params.id}`
+            )
+        );
+        
+    }
+}
+exports.findComicBySchedule = async (req,res,next)=>{
+    try {
+        const comicService = new ComicService(MongoDB.client);
+        const document = await comicService.findComicBySchedule(req.params.id);
         if(!document){
             return next(new ApiError(404, "Comic not found"));
         }
