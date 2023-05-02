@@ -46,7 +46,10 @@ exports.findOne = async (req,res,next)=>{
         if(!document){
             return next(new ApiError(404, "Comment not found"));
         }
-        return res.send(document);
+        return res.send({
+            errCode:0,
+            document
+        });
     } catch (error) {
         return next(
             new ApiError(

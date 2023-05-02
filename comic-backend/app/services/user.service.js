@@ -103,16 +103,17 @@ class UserService {
     }
 
     async update(id, payload) {
+        console.log(payload);
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        const update = this.extractUserData(payload);
         const result = await this.User.findOneAndUpdate(
             filter,
-            { $set: update },
+            { $set: {email:payload.email} },
             { returnDocument: "after" }
         );
         return result.value;
+        
     }
 
     async delete(id) {

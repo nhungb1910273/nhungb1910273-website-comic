@@ -9,6 +9,10 @@ router.route("/getUser").get(users.findAll)
 router.route('/register').post(users.create);
 router.route('/login').post(users.login);
 
+router.route("/update/:id").put(users.update);
+
+router.route("/get/:id").put(users.findOne);
+
 // router.route("/favorite")
 //     .get(users.findAllFavorite);
 

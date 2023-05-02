@@ -12,4 +12,7 @@ router.route("/update/:id").put(comments.update);
 
 router.route("/delete/:id").delete(comments.delete);
 
+router.route("/get/:id").get(comments.findOne);
+
+
 module.exports = router;

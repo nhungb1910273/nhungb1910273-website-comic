@@ -9,7 +9,8 @@ class CommentService {
         const comment = {
             username: payload.username,
             comment: payload.comment,
-            isPost: payload.isPost
+            isPost: payload.isPost,
+            nameComic:payload.nameComic
         };
         // Remove undefined fields
         Object.keys(comment).forEach(
