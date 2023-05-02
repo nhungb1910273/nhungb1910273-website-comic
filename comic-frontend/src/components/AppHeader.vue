@@ -111,12 +111,20 @@
                         </label>
                     </div>
                   
-                    <div class="m-2 text-end">
+                    <div v-if="username == ''" class="m-2 text-end">
                         <button class="account me-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Register
                         </button>
                         <button class="account" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1">
                                 Login
+                        </button>
+                    </div>
+                    <div v-else class="m-2 text-end">
+                        <button class="account me-2" type="button">
+                            {{ username }}
+                        </button>
+                        <button class="account" type="button" @click="logout">
+                            Logout
                         </button>
                     </div>
                     <ul class="nav_menu_list border border-1">

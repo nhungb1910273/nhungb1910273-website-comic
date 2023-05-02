@@ -1,5 +1,8 @@
 <template>
         <main class="container">
+          <div class="title">
+                <h1 class="topic">Genres</h1>
+            </div>
       <!-- responsive -->
       <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

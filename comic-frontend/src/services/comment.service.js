@@ -3,9 +3,9 @@ class CommentService {
     constructor(baseUrl = "/api/comments") {
         this.api = createApiClient(baseUrl);
     }
-    // async getAll() {
-    //     return (await this.api.get("/")).data;
-    // }
+    async getAll() {
+        return (await this.api.get("/getComment")).data;
+    }
     async addComment(data) {
         console.log(data);
         return (await this.api.post("/addComment", data)).data;

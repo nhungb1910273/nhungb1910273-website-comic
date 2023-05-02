@@ -13,14 +13,14 @@
         <div class="mb-4">
             <label class="form-label" style="color:#666666">Password</label>
             <Field type="password" class="form-control" name="password" v-model="userLocal.password" />
-            <div class="form-text">We'll never share your email with anyone else.</div>
+            <div class="form-text">We'll never share your password with anyone else.</div>
             <ErrorMessage name="password" class="text-danger" />
 
         </div>
         <div class="mb-4">
             <label class="form-label" style="color:#666666">Confirm Password</label>
             <Field type="password" class="form-control" name="confirmPassword" v-model="userLocal.confirmPassword" />
-            <div class="form-text">We'll never share your email with anyone else.</div>
+            <div class="form-text">We'll never share your password with anyone else.</div>
             <ErrorMessage name="confirmPassword" class="text-danger" />
 
         </div>
@@ -46,7 +46,7 @@
             const userFormSchema = yup.object().shape({
                 name: yup
                     .string()
-                    .required("Tên phải có giá trị.")
+                    .required("Username must be valid.")
                     .min(2, "Minimum 8 characters required"),
                 email: yup
                     .string()

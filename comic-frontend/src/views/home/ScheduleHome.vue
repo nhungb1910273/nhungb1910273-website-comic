@@ -30,9 +30,12 @@
   <div class="comic">
     <!-- row1 -->
       <div class="item" :data-filter="comic.schedule" v-for="(comic,index) in comics" :key="comic._id">
-        <a href="haymanganhtrai.php" class="item_info">
+        <router-link :to="{
+              name: 'comic.detail',
+              params: { id: comic._id },
+          }"  class="item_info">
           <img :src="'http://localhost:3000/assets/pdf/'+comic.photo" />
-        </a>
+        </router-link>
         <p class="name_item">{{ comic.name }}</p>
         <GenreName :id="comic._idGenre"/>
       </div>

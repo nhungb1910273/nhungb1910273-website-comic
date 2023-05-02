@@ -4,9 +4,6 @@
         <div class="mt-4">
             <div class="title">
                 <h1 class="topic">Schedule</h1>
-                <router-link to="schedule">
-                    <span class="btn_all">See All</span>
-                </router-link>
             </div>
             <ScheduleHome />
             

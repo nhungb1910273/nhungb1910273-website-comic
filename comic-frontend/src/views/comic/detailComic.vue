@@ -65,6 +65,8 @@
                 <h3 class="text-white">Comment</h3>
                 <div class="text-white">Start a discussion, not a fire, Post with kindness</div>
                 <CommentFormVue :comment="comment" @submit:comment="addComment"/>
+                <CommentView />
+
             </div>
 
 
@@ -88,6 +90,7 @@ import { EffectCoverflow, Pagination } from "swiper";
 import GenreName from '../../components/GenreName.vue';
 import CommentFormVue from '../../components/CommentForm.vue';
 import { toast } from 'vue3-toastify';
+import CommentView from './CommentView.vue';
 
 export default {
     
@@ -139,14 +142,15 @@ export default {
                 if(user){
                     const data = {
                         comment:comment,
-                        _idUser: user._id,
-                        isPost: false
+                        username: user.name,
+                        isPost: 'false'
                     }
                     var add = await commentService.addComment(data);
                     if(add && add.errCode==0){
                         this.comment='';
-                        this.$router.go(0);
                         toast.success(add.message);
+                        this.$router.go(0);
+                        
                     }else{
                         toast.error(add.message);
                     }
@@ -177,7 +181,7 @@ export default {
         modules: [EffectCoverflow, Pagination],
       };
     },
-    components: { Swiper, SwiperSlide, GenreName, CommentFormVue },
+    components: { Swiper, SwiperSlide, GenreName, CommentFormVue, CommentView },
       
 }
 </script>
