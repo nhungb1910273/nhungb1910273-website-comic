@@ -12,7 +12,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <router-link to="/dashboard" class="nav-link">
+    <router-link to="/" class="nav-link">
         <i class="far fa-chart-bar" style="padding-right: 8px;"></i>
         <span>Dashboard</span>
     </router-link>

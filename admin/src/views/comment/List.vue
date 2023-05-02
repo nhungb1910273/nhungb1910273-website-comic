@@ -31,8 +31,8 @@ export default {
             commentStrings() {
                 
                 return this.comments.map((index) => {
-                    const { comment } = index;
-                    return [ comment ].join("");
+                    const { comment, username, nameComic } = index;
+                    return [ comment, username, nameComic ].join("");
                 });
             },
             // Trả về các comment có chứa thông tin cần tìm kiếm.

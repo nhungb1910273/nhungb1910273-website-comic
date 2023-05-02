@@ -60,7 +60,8 @@ export default {
                 <th class="text-center">#</th>
                 <th>Username</th>
                 <th>Comment</th>
-                <th class="col-2">Status</th>
+                <th>Comic</th>
+                <th class="col-2">Approved</th>
                 <th class="col-2">Action</th>
             </tr>
         </thead>
@@ -75,6 +76,7 @@ export default {
                 <td class="text-center">{{ index + 1 }}</td>
                 <td>{{ comment.username }}</td>
                 <td>{{ comment.comment }}</td>
+                <td>{{ comment.nameComic }}</td>
                 <td>
                     <span :class="{ invisible: !show }">
                         <span v-if="comment.isPost==true" class="text-success">Yes</span>
