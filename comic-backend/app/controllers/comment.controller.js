@@ -13,7 +13,7 @@ exports.create = async (req, res, next) => {
         return res.send(document);
     }catch (error){
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the Comments")
         );
     }
 };
@@ -33,7 +33,7 @@ exports.findAll = async (req,res,next) => {
         console.log(documents);
     } catch (error) {
         return next(
-            new ApiError(500, "An error occurred while retrieving contacts")
+            new ApiError(500, "An error occurred while retrieving Comments")
         );
     }
     return res.send(documents);
@@ -44,14 +44,14 @@ exports.findOne = async (req,res,next)=>{
         const commentService = new CommentService(MongoDB.client);
         const document = await commentService.findById(req.params.id);
         if(!document){
-            return next(new ApiError(404, "Contact not found"));
+            return next(new ApiError(404, "Comment not found"));
         }
         return res.send(document);
     } catch (error) {
         return next(
             new ApiError(
                 500,
-                `Error retrieving contact with id=${req.params.id}`
+                `Error retrieving Comment with id=${req.params.id}`
             )
         );
         
@@ -59,6 +59,7 @@ exports.findOne = async (req,res,next)=>{
 }
 
 exports.update=async(req,res,next)=>{
+    console.log(req.body);
     if(Object.keys(req.body).length === 0){
         return next(new ApiError(400, "Data to update can not be empty"));
     }
@@ -67,29 +68,33 @@ exports.update=async(req,res,next)=>{
         const commentService = new CommentService(MongoDB.client);
         const document = await commentService.update(req.params.id, req.body);
         if(!document){
-            return next(new ApiError(404, "Contact not found"));
+            return next(new ApiError(404, "Comment not found"));
         }   
-        return res.send({ message: "Contact was updated successfully"});
+        return res.send({ message: "Comment was updated successfully"});
     } catch (error) {
         return next(
-            new ApiError(500, `Error updating contact with id=${req.params.id}`)
+            new ApiError(500, `Error updating Comment with id=${req.params.id}`)
         );
     }
 };
 
 exports.delete = async(req,res,next)=>{
+    console.log(req.params.id);
     try {
         const commentService = new CommentService(MongoDB.client);
         const document= await commentService.delete(req.params.id);
         if(!document){
-            return next(new ApiError(404,"Contact not found"));
+            return next(new ApiError(404,"Comment not found"));
         }
-        return res.send({message: "Contact was deleted successfully"});
+        return res.send({
+            errCode:0,
+            message: "Comment was deleted successfully"
+        });
     } catch (error) {
         return next(
             new ApiError(
                 500,
-                `Could not delete contact with id=${req.params.id}`
+                `Could not delete Comment with id=${req.params.id}`
             )
         );
     }
@@ -102,7 +107,7 @@ exports.findAllFavorite = async(_req,res,next)=>{
         return res.send(documents);
     }catch (error){
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the Comments")
         );
     }
 };
@@ -112,11 +117,11 @@ exports.deleteAll = async(_req,res,next)=>{
         const commentService = new CommentService(MongoDB.client);
         const deletedCount = await commentService.deleteAll;
         return res.send({
-            message: `${deletedCount} contacts were deleted successfully` 
+            message: `${deletedCount} Comments were deleted successfully` 
         });
     } catch (error) {
         return next(
-            new ApiError(500, "An error occurred while creating the contacts")
+            new ApiError(500, "An error occurred while creating the Comments")
         );
     }
 };

@@ -3,17 +3,13 @@ const comments = require("../controllers/comment.controller")
 
 const router = express.Router();
 
-// router.route("/").get(comments.findAll)
+router.route("/getComment").get(comments.findAll)
     // .delete(comments.deleteAll)
 
 router.route('/addComment').post(comments.create);
 
-// router.route("/favorite")
-//     .get(comments.findAllFavorite);
+router.route("/update/:id").put(comments.update);
 
-// router.route("/:id")
-//     .get(comments.findOne)
-//     .put(comments.update)
-//     .delete(comments.delete);
+router.route("/delete/:id").delete(comments.delete);
 
 module.exports = router;

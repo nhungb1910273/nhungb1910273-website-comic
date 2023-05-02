@@ -3,7 +3,7 @@ const users = require("../controllers/user.controller")
 
 const router = express.Router();
 
-router.route("/").get(users.findAll)
+router.route("/getUser").get(users.findAll)
     // .delete(users.deleteAll)
 
 router.route('/register').post(users.create);

@@ -7,7 +7,7 @@ class CommentService {
     }
     extractCommentData(payload) {
         const comment = {
-            _isUser: payload._idUser,
+            username: payload.username,
             comment: payload.comment,
             isPost: payload.isPost
         };
@@ -34,7 +34,23 @@ class CommentService {
        
     }
 
-    
+    async findByIdUser(id){
+       const find = await this.find({
+            _idUser: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
+        if(find){
+            return{
+                errCode:0,
+                comments: await find.toArray()
+            }
+        }else{
+            return{
+                errCode:1,
+                comments: '',
+            }
+        }
+    } 
+
     async find(filter){
         console.log(filter);
         const cursor = await this.Comment.find(filter);
@@ -63,23 +79,22 @@ class CommentService {
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        const update = this.extractCommentData(payload);
-        const result = await this.User.findOneAndUpdate(
+        const result = await this.Comment.findOneAndUpdate(
             filter,
-            { $set: update },
+            { $set: {isPost:payload.isPost} },
             { returnDocument: "after" }
         );
         return result.value;
     }
 
     async delete(id) {
-        const result = await this.User.findOneAndDelete({
+        const result = await this.Comment.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
     async deleteAll() {
-        const result = await this.User.deleteMany({});
+        const result = await this.Comment.deleteMany({});
         return result.deletedCount;
     }
 }
