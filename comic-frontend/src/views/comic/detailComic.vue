@@ -65,7 +65,7 @@
                 <h3 class="text-white">Comment</h3>
                 <div class="text-white">Start a discussion, not a fire, Post with kindness</div>
                 <CommentFormVue :comment="comment" @submit:comment="addComment"/>
-                <CommentView />
+                <CommentView :nameComic="comic.name" />
 
             </div>
 
@@ -143,8 +143,10 @@ export default {
                     const data = {
                         comment:comment,
                         username: user.name,
-                        isPost: 'false'
+                        isPost: 'false',
+                        nameComic: this.comic.name,
                     }
+                    console.log(data);
                     var add = await commentService.addComment(data);
                     if(add && add.errCode==0){
                         this.comment='';

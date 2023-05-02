@@ -1,8 +1,8 @@
 <template>
     <div class="my-3">
       <h5 class="text-white">View Comment</h5>
-      <div class="border px-3 py-2" style="border-radius:5px;" v-for="comment in comments" :key="comment._id">
-        <div v-if="comment.isPost==true">
+      <div v-for="comment in comments" :key="comment._id">
+        <div v-if="comment.isPost==true && nameComic==comment.nameComic" class="border px-3 py-2" style="border-radius:5px;" >
           <div class="text-white">
             <b style="color:#e74c3c;">{{ comment.username }}</b>
             <i class="fa-solid fa-caret-right mx-1"></i>
@@ -24,6 +24,9 @@ export default{
     return{
       comments:[]
     }
+  },
+  props:{
+    nameComic:{type:String, required:true}
   },
   methods:{
     async retrieveComments() {

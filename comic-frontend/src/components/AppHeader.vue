@@ -41,9 +41,12 @@
                         </button>
                     </div>
                     <div v-else>
-                        <button class="account me-2" type="button">
-                            {{ username }}
-                        </button>
+                        <router-link to="/profile">
+                                <button class="account me-2" type="button">
+                                    {{ username }}
+                                </button>
+                                
+                            </router-link>
                         <button class="account" type="button" @click="logout">
                             Logout
                         </button>
@@ -120,9 +123,12 @@
                         </button>
                     </div>
                     <div v-else class="m-2 text-end">
-                        <button class="account me-2" type="button">
-                            {{ username }}
-                        </button>
+                        <router-link to="/profile">
+                            <button class="account me-2" type="button">
+                                {{ username }}
+                            </button>
+                            
+                        </router-link>
                         <button class="account" type="button" @click="logout">
                             Logout
                         </button>

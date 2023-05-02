@@ -5,6 +5,24 @@ const routes = [
         name: "home",
         component: () => import("@/views/home/Home.vue"),
     },
+    {
+        path: "/profile",
+        name: "profile",
+        component: () => import("@/views/profile/Profile.vue"),
+        children: [
+            {
+                path: "/profile",
+                name: "profile",
+                component: () => import("@/views/profile/ViewProfile.vue"),
+                
+            },
+            {
+                path: "/comment",
+                name: "comment",
+                component: () => import("@/views/profile/Comment.vue"),
+            },
+        ]
+    },
    
     {
         path: "/:pathMatch(.*)*",

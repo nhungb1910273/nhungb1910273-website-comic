@@ -15,12 +15,10 @@ class UserService {
     // async deleteAll() {
     //     return (await this.api.delete("/")).data;
     // }
-    // async get(id) {
-    //     return (await this.api.get(`/${id}`)).data;
-    // }
-    // async update(id, data) {
-    //     return (await this.api.put(`/${id}`, data)).data;
-    // }
+   
+    async update(id, data) {
+        return (await this.api.put(`/update/${id}`, data)).data;
+    }
     // async delete(id) {
     //     return (await this.api.delete(`/${id}`)).data;
     // }
