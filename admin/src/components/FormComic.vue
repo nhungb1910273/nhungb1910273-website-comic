@@ -228,7 +228,7 @@
                 }
             },
             submitComic() {
-                console.log(this.inputs);
+                this.inputs={}
                 this.$emit("submit:comic", this.comicLocal,this.inputs);
             },
             async retrieveGenres() {

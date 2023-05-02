@@ -23,7 +23,7 @@ export default {
                 <th class="text-center">#</th>
                 <th class="col-3">Name</th>
                 <th>Description</th>
-                <th class="text-center">Action</th>
+                <th class="text-center col-2">Action</th>
             </tr>
         </thead>
         <tbody>

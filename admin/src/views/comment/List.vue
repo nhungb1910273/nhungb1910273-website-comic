@@ -1,20 +1,20 @@
 <script>
 import { toast } from 'vue3-toastify';
-import ListGenre from '../../components/ListGenre.vue';
+import ListComment from '../../components/ListComment.vue';
 import Navbar from '../Navbar.vue';
-import genreService from "@/services/genre.service";
+import commentService from "@/services/comment.service";
 
 export default {
     components:{
         Navbar,
-        ListGenre
+        ListComment
     },
     props: {
             id: { type: String, required: true },
     },
     data() {
             return {
-                genres: [],
+                comments: [],
                 activeIndex: -1,
                 searchText: "",
             };
@@ -27,61 +27,61 @@ export default {
             },
         },
         computed: {
-            // Chuyển các đối tượng genre thành chuỗi để tiện cho tìm kiếm.
-            genreStrings() {
-                return this.genres.map((genre) => {
-                    const { name, description } = genre;
-                    return [name, description].join("");
+            // Chuyển các đối tượng comment thành chuỗi để tiện cho tìm kiếm.
+            commentStrings() {
+                
+                return this.comments.map((index) => {
+                    const { comment } = index;
+                    return [ comment ].join("");
                 });
             },
-            // Trả về các genre có chứa thông tin cần tìm kiếm.
-            filteredGenres() {
-                if (!this.searchText) return this.genres;
-                return this.genres.filter((_genre, index) =>
-                    this.genreStrings[index].includes(this.searchText)
+            // Trả về các comment có chứa thông tin cần tìm kiếm.
+            filteredComments() {
+                if (!this.searchText) return this.comments;
+                return this.comments.filter((_comment, index) =>
+                    this.commentStrings[index].includes(this.searchText)
                 );
             },
-            activeGenre() {
+            activeComment() {
                 if (this.activeIndex < 0) return null;
-                    return this.filteredGenres[this.activeIndex];
+                    return this.filteredComments[this.activeIndex];
                 },
-            filteredGenresCount() {
-                return this.filteredGenres.length;
+            filteredCommentsCount() {
+                return this.filteredComments.length;
             },
         },
         methods: {
-            async retrieveGenres() {
+            async retrieveComments() {
                 try {
-                    var genres = await genreService.getAll();
-                    
-                    if(genres && genres.errCode == 0){
-                        this.genres = genres.genres;
+                    var data = await commentService.getAll();
+                    console.log(data);
+                    if(data && data.errCode == 0){
+                        this.comments = data.comment;
                     } 
-                    
+                    console.log(this.comments);
                 } catch (error) {
                     console.log(error);
                 }
             },
             refreshList() {
-                this.retrieveGenres();
+                this.retrieveComments();
                 this.activeIndex = -1;
             },
 
-            // async removeAllGenres() {
+            // async removeAllcomments() {
             //     if (confirm("Bạn muốn xóa tất cả Liên hệ?")) {
             //         try {
-            //             await genreService.deleteAll();
+            //             await commentService.deleteAll();
             //             this.refreshList();
             //         } catch (error) {
             //             console.log(error);
             //         }
             //     }
             // },
-            async deleteGenre(id) {
+            async deleteComment(id) {
                 if (confirm("Are you sure remove ?")) {
                     try {
-                        // console.log(id)
-                        var remove = await genreService.delete(id);
+                        var remove = await commentService.delete(id);
                         if(remove && remove.errCode==0){
                             toast.success(remove.message);
                             this.refreshList();
@@ -93,12 +93,9 @@ export default {
                     }
                 }
             },
-            goToAddGenre() {
-                this.$router.push({ name: "genre.add" });
-            },
+           
         },
         mounted() {
-            console.log(this.genres)
             this.refreshList();
         },
 }
@@ -117,26 +114,23 @@ export default {
    <div class="container-fluid">
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Genres</h1>
+<h1 class="h3 mb-2 text-gray-800">Comments</h1>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">List Genres</h6>
-        <div class="" @click="goToAddGenre">
-                <button class="btn btn-primary">Add</button>
-            </div>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List comments</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <span>Amount : {{ filteredGenres.length }}</span>
-            <ListGenre
-                v-if="filteredGenresCount > 0"
-                :genres="filteredGenres"
+            <span>Amount : {{ filteredComments.length }}</span>
+            <ListComment
+                v-if="filteredCommentsCount > 0"
+                :comments="filteredComments"
                 v-model:activeIndex="activeIndex"
-                @delete="deleteGenre"
+                @delete="deleteComment"
             />
-            <p v-else>No genres.</p>
+            <p v-else>No comments.</p>
         </div>
     </div>
 </div>

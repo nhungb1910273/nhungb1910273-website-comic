@@ -30,8 +30,8 @@ export default {
             // Chuyển các đối tượng comic thành chuỗi để tiện cho tìm kiếm.
             comicStrings() {
                 return this.comics.map((comic) => {
-                    const { name, actor, description, photo, trending } = comic;
-                    return [name, actor, description, photo, trending ].join("");
+                    const { name, actor, description } = comic;
+                    return [name, actor, description ].join("");
                 });
             },
             // Trả về các comic có chứa thông tin cần tìm kiếm.
@@ -41,7 +41,7 @@ export default {
                     this.comicStrings[index].includes(this.searchText)
                 );
             },
-            activecomic() {
+            activeComic() {
                 if (this.activeIndex < 0) return null;
                     return this.filteredComics[this.activeIndex];
                 },
@@ -110,7 +110,7 @@ export default {
 <!-- Main Content -->
 <div id="content">
 
-   <Navbar />
+   <Navbar v-model="searchText"/>
 
    <!-- Begin Page Content -->
    <div class="container-fluid">
@@ -120,18 +120,23 @@ export default {
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
+    <div class="card-header py-3 d-flex justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">List Comics</h6>
+        
+        <div class="" @click="goToAddComic">
+            <button class="btn btn-primary">Add</button>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
+            <span>Amount : {{ filteredComics.length }}</span>
             <ListComic
                 v-if="filteredComicsCount > 0"
                 :comics="filteredComics"
                 v-model:activeIndex="activeIndex"
                 @delete="deleteComic"
             />
-            <p v-else>Không có liên hệ nào.</p>
+            <p v-else>No comics.</p>
         </div>
     </div>
 </div>

@@ -13,9 +13,38 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button @click="logout" class="btn btn-primary">Logout</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+    export default{
+        data() {
+            return {
+                username:'',
+                route: this.$route.query.page
+            };
+        },
+        methods:{
+            getUserName (){
+            
+                const user= JSON.parse(localStorage.getItem('user'));
+                if(user){
+                    this.username = user.name;
+                }
+                console.log(this.username);
+
+            },
+            logout(){
+                localStorage.removeItem('user');
+                this.$router.push({name:"login"})
+            }
+        },
+        mounted(){
+            this.getUserName();
+        }
+    }
+</script>

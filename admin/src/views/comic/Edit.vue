@@ -131,7 +131,7 @@ export default {
                     if(contentUpdate && contentUpdate.errCode == 0){
                         toast.success(contentUpdate.message);
                         // this.comic = {};
-                        // this.$router.push({ name: "comic.list" });
+                        this.$router.push({ name: "comic.list" });
                     }else{
                         toast.error(contentUpdate.message);
                     }
