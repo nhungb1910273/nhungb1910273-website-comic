@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users",usersRouter);
-app.use("/api/contacts",contactsRouter);
 app.use("/api/comics",comicsRouter)
 app.use("/api/genres",genresRouter);
 app.use("/api/comments",commentsRouter)
