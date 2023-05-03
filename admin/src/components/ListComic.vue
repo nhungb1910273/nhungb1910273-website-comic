@@ -24,7 +24,7 @@ export default {
                 <th class="col-3">Name</th>
                 <th>Photo</th>
                 <th class="col-3">Actor</th>
-                <th>Description</th>
+                <th class="col-3">Description</th>
                 <th class="text-center col-2">Action</th>
             </tr>
         </thead>
@@ -42,7 +42,15 @@ export default {
                     <img :src="'http://localhost:3000/assets/pdf/'+comic.photo" style="width:100px"/> 
                 </td>
                 <td>{{ comic.actor }}</td>
-                <td>{{ comic.description }}</td>
+                <td >
+                    <div style="white-space: nowrap; 
+                        width: 200px; 
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                         ">
+                    {{ comic.description }}
+                    </div>
+                    </td>
                 <td class="text-center">
                     <router-link
                     :to="{

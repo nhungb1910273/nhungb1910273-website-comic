@@ -13,7 +13,6 @@ export default {
     data(){
         return{
             show: true,
-
         }
     },
     emits: ["update:activeIndex","delete"],
@@ -79,20 +78,18 @@ export default {
                 <td>{{ comment.nameComic }}</td>
                 <td>
                     <span :class="{ invisible: !show }">
-                        <span v-if="comment.isPost==true" class="text-success">Yes</span>
+                        <span v-if="comment.isPost==true" class="text-success me-2">Yes</span>
                         <span v-else class="text-danger">No</span>
                     </span>
                     <span :class="{ invisible: show }">
                         <FormComment :comment="comment" @submit:comment="updateComment"/>
                     </span>
-                    
-
                 </td>
                 <td>
                     <button class="btn" @click="isShow" >
                         <i v-if="show" class="far fa-edit text-success" style="padding-right: 8px;"></i>
                     </button>
-                    <button class="btn" @click="deleteComment(comment._id)">
+                    <button class="btn" @click="deleteComment(comment._id)" >
                         <i class="far fa-trash-alt text-danger"></i>
                     </button>
                     

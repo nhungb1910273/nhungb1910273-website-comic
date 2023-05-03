@@ -55,7 +55,9 @@
     <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-none d-lg-inline text-gray-600">{{ username }}</span>
+            <span style="    border: 1px solid;
+                            padding: 5px 15px;
+                            border-radius: 5px;" class="mr-2 d-none d-lg-inline text-gray-800">{{ username }}</span>
             
         </a>
         <!-- Dropdown - User Information -->
