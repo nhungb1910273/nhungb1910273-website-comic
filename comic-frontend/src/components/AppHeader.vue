@@ -183,14 +183,14 @@ export default {
         async Register(data) {
             try {
                 var register = await UserService.register(data);
-                
-                if(register && register.errCode == 0){
+                if(register && register.errCode == 0){                    
                     toast.success(register.message);
                     this.user = {};
                     this.$router.go(0);
                 }else{
                     toast.error(register.message);
                 }
+                toast.success("You must be login!")
             } catch (error) {
                 toast.error(error);
             }
@@ -198,8 +198,7 @@ export default {
         async Login(data) {
             try {
                 var login = await UserService.login(data);
-                console.log(login);
-                if(login.errCode == 0){
+                if(login && login.errCode == 0){
                     localStorage.setItem('user', JSON.stringify(login.user));
                     toast.success(login.message);
                     this.user = {};
@@ -212,12 +211,11 @@ export default {
             }
         },
         getUserName (){
-            
             const user= JSON.parse(localStorage.getItem('user'));
             if(user){
                 this.username = user.name;
             }
-            console.log(this.username);
+            
 
         },
         logout(){

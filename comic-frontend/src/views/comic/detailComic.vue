@@ -6,7 +6,10 @@
                   <img class="justify-content-md-center" style="width:270px; height: 380px; border-radius:5px;" :src="'http://localhost:3000/assets/pdf/'+comic.photo" alt="{{ comic.name }}">
               </div>
               <div class="col-7">
-                  <h1 class="text-white">{{ comic.name }}</h1>
+                    <div class="d-flex align-items-center">
+                        <h1 class="text-white me-5">{{ comic.name }}</h1>
+                        <Favorite></Favorite>
+                    </div>
                     <div class="mb-3 text-white">Actor: <span class="title-detail">{{ comic.actor }}</span></div>
                     <div class="mb-3 text-white">Genre: <span class="title-detail">{{ genreName }}</span></div>
                     <div class="mb-3 text-white">Chapter:</div>
@@ -91,6 +94,7 @@ import GenreName from '../../components/GenreName.vue';
 import CommentFormVue from '../../components/CommentForm.vue';
 import { toast } from 'vue3-toastify';
 import CommentView from './CommentView.vue';
+import Favorite from '../../components/Favorite.vue';
 
 export default {
     
@@ -183,7 +187,7 @@ export default {
         modules: [EffectCoverflow, Pagination],
       };
     },
-    components: { Swiper, SwiperSlide, GenreName, CommentFormVue, CommentView },
+    components: { Swiper, SwiperSlide, GenreName, CommentFormVue, CommentView, Favorite },
       
 }
 </script>
