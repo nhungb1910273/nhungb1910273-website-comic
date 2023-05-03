@@ -40,7 +40,8 @@ class UserService {
                 );
                 return {
                     errCode:0,
-                    message:"User registered successfully!"
+                    message:"User registered successfully!",
+                    
                 };
             }
             
